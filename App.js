@@ -1,20 +1,22 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { View,Button } from "react-native";
+import React, { useState } from "react";
+import { Camera } from "expo-camera";
 
-export default function App() {
+const App = () => {
+  const [image, setImage] = useState(null);
+
+  const takePicture = async () => {
+    const camera = new Camera();
+    const { data } = await camera.takePictureAsync();
+    setImage(data);
+  };
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
+    <View>
+      <Button title="Take Picture" onPress={takePicture} />
+      {image && <Image source={image} />}
     </View>
   );
-}
+};
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+export default App;
